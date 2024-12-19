@@ -12,7 +12,7 @@ const router = createBrowserRouter(routes)
 
 
  function App() {
-
+console.log('``', `${import.meta.env.BACKENDURL}`)
   return (
     <>
     <RouterProvider router={router} />

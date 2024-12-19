@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery  } from "@reduxjs/toolkit/query/react";
 
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: `${import.meta.env.BACKENDURL}/api/admin`,
+    baseUrl: `${import.meta.env.VITE_BACKENDURL}/api/admin`,
     credentials: "include",
     prepareHeaders: (Headers, {getState}) =>{
         const adminToken =  localStorage.getItem('adminToken')
