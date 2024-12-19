@@ -32,6 +32,7 @@ const Cart = () => {
         totalPrice: cartItem.totalPrice,
         status: cartItem.productDetailes.status
       }));
+      
       setCartItems(transformedItems);
       const outOfStock = cart.cartItems?.some((cartItems) => cartItems.productDetailes.stock < cartItems.items.quantity)
       setOutOfStock(outOfStock)
