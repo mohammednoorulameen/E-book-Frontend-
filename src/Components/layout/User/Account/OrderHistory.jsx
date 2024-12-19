@@ -486,7 +486,7 @@ const OrderHistoryProductDetailes = () => {
 
 
   useEffect(() => {
-    console.log("data ", data);
+    console.log("check oder data details ", data);
 
     if (data?.orderItems) {
       const orderData = data.orderItems.flatMap((order) => {
@@ -534,10 +534,17 @@ const OrderHistoryProductDetailes = () => {
    * discount price 
    */
 
-  const totalPrice = orderDetails.reduce(
-    (acc, item) => acc + (item.price - (item.couponDiscount || 0) / 100 * item.price),
-    0
-  );
+  // const totalPrice = orderDetails.reduce(
+  //   (acc, item) => acc + (item.price - (item.couponDiscount || 0) / 100 * item.price),
+  //   0
+  // );
+  
+  const totalPrice = orderDetails.reduce((acc, item) => {
+    const discount = (item.couponDiscount || 0) / 100; 
+    const priceAfterDiscount = item.price * (1 - discount); 
+    return acc + priceAfterDiscount * item.quantity; 
+  }, 0);
+
   
   const totalDiscount = orderDetails.reduce(
     (acc, item) => acc + ((item.couponDiscount || 0) / 100 * item.price),
@@ -808,7 +815,7 @@ console.log("Order Price Check:",totalPrice);
                   </Typography>
                 </Box>
                 <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                  ₹{order.payableAmount || "N/A"}.00
+                  ₹{totalPrice || "N/A"}.00
                 </Typography>
               </Box>
             </CardContent>
@@ -864,7 +871,7 @@ console.log("Order Price Check:",totalPrice);
                       <strong>Total:</strong>
                     </TableCell>
                     <TableCell align="right">
-                      <strong>₹{order.payableAmount}.00</strong>
+                      <strong>₹{totalPrice}.00</strong>
                     </TableCell>
                   </TableRow>
                 </TableBody>
