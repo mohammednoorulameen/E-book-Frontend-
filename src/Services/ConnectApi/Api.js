@@ -4,7 +4,7 @@ import { clearUser } from "../../Redux/Slice/UserSlice/UserSlice";
 
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:4040/api",
+    baseUrl: `${import.meta.env.BACKENDURL}/api`,
     credentials: "include",
     prepareHeaders: (Headers) =>{
         const token = localStorage.getItem('userToken')
