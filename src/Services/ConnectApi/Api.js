@@ -4,7 +4,8 @@ import { clearUser } from "../../Redux/Slice/UserSlice/UserSlice";
 
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BACKENDURL}/api`,
+    baseUrl: 'https://ebooksserver.noorulameen.tech/api',
+    // baseUrl: `${import.meta.env.VITE_BACKENDURL}/api`,
     credentials: "include",
     prepareHeaders: (Headers) =>{
         const token = localStorage.getItem('userToken')
