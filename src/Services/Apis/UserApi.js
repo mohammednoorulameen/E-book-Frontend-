@@ -391,6 +391,18 @@ export const userApi = createApi({
         query: ()=> '/user/get-top-category'
     }),
 
+    /**
+     * return order
+     */
+    
+    ReturnOrder: builder.mutation({
+        query: (items) => ({
+          url: '/user/return-order-order',
+          method: 'POST',
+          body: items,
+        }),
+      })
+      
 
 
 
@@ -432,4 +444,5 @@ useRetryingPaymentMutation,
 useVerifyRetryMutation,
 useGetTopProductsQuery,
 useGetTopCategoryQuery,
+useReturnOrderMutation,
 } = userApi

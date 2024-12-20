@@ -44,13 +44,19 @@ const NewOrderPayment = () => {
 
   useEffect(() => {
     if (addressesData?.addresses) {
+
+      console.log('addressesData', addressesData)
+
       const selected = addressesData.addresses.find(
         (address) => address._id === cartSaveAddress
       );
-      setSelectedAddress(selected || null);
+      setSelectedAddress(selected);
+
+      console.log('check selected address ', selected)
     }
 
-    console.log("check cartItems", totalPrice);
+    console.log('cartSaveAddress', cartSaveAddress)
+    console.log("check cartItems", selectedAddress);
 
     
     

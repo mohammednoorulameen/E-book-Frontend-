@@ -9,6 +9,7 @@ import {
   useRetryingPaymentMutation,
   useVerifyRetryMutation,
   useAddWalletMutation,
+  useReturnOrderMutation,
 } from "../../../../Services/Apis/UserApi";
 import { OrderCancelModal, OrderReturnModal } from "../../../Modals/OrderModal";
 
@@ -26,9 +27,10 @@ const OrderHistory = () => {
   const [VerifyRetry] = useVerifyRetryMutation();
   const { data, refetch } = useGetOrderDetailesQuery({
     page: currentPage,
-    limit: 5,
+    limit: 10,
   });
-
+  const [ReturnOrder] = useReturnOrderMutation()
+ 
   const totalPage = data?.totalPage || 1;
 
 
@@ -73,7 +75,7 @@ const OrderHistory = () => {
         (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
       );
 
-      setOderData(sortedOrderData); // Setting sorted data
+      setOderData(sortedOrderData); 
     }
   }, [data]);
 
@@ -155,8 +157,7 @@ const OrderHistory = () => {
    * return modal
    */
 
-  const handleOrderReturnOpenModal = (order) => {
-    setSelectedOrder(order);
+  const handleOrderReturnOpenModal = () => {
     setisOrderReturnModalOpen(true);
   };
 
@@ -166,36 +167,20 @@ const OrderHistory = () => {
 
   };
 
-  const handleSubmitOrderreturn =async (value) => {
+  const handleSubmitOrderreturn = (returnReason) => {
 
+    console.log('first', returnReason)
+  //   const response = ReturnOrder(returnReason)
 
-    if (!selectedOrder) return;
+  //   if (returnReason.trim == "") {
+  //     // setError(true)
+  //     console.log("Form submitted failed");
 
-    console.log('selectedOrder', selectedOrder)
-    const { product_id, quantity, order_id , productName, payment_id, amount } = selectedOrder;
-    console.log('productName, payment_id, amount', productName, payment_id, amount)
+  //   }else{
+  //     // setError(false)
+  //     console.log("Form submitted successfull");
 
-    const response = await CancelOrder({
-      product_id,
-      quantity,
-      order_id,
-    });
-    if (response.data) {
-
-      await AddWallet({ amount: amount, productName: productName, order_id: order_id, payment_id})
-      refetch();
-      handleOrderCancelCloseModal();
-
-    }
-
-    // console.log("value", value);
-    // if (input.trim == "") {
-    //   setError(true)
-    // }else{
-    //   setError(false)
-    //   console.log("Form submitted successfull");
-
-    // }
+  //   }
   };
 
   /**
@@ -391,23 +376,16 @@ const OrderHistory = () => {
 
                     {order.status == "Delivered" && (
                       <Button
-                        // onClick={() =>
-                        //   handleOrderReturnOpenModal({
-                        //     order_id: order.orderId,
-                        //     product_id: order.productId,
-                        //     quantity: order.quantity,
-                        //     user_id: order.userId
-                        //   })
-                        // }
+                       
                         onClick={() =>
 
-                          handleOrderReturnOpenModal({
+                          handleOrderCancelOpenModal({
                             order_id: order.orderId,
-                              product_id: order.productId,
-                              quantity: order.quantity,
-                              productName: order.productName,
-                              payment_id: order.payment_id,
-                              amount: order.payableAmount
+                            product_id: order.productId,
+                            quantity: order.quantity,
+                            productName: order.productName,
+                            payment_id: order.payment_id,
+                            amount: order.payableAmount
                           })
                         }
                         variant="outlined"
@@ -505,7 +483,7 @@ const OrderHistoryProductDetailes = () => {
   });
   const [RetryingPayment, { error }] = useRetryingPaymentMutation();
   const [VerifyRetry] = useVerifyRetryMutation();
-  const totalPage = data?.totalPage || 1;
+  // const totalPage = data?.totalPage || 1;
 
 
 
@@ -622,10 +600,10 @@ console.log("Order Price Check:",totalPrice);
     }
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    refetch();
-  };
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  //   refetch();
+  // };
 
   /**
    * handle download invoice
@@ -1021,36 +999,36 @@ console.log("Order Price Check:",totalPrice);
       )}
 
       {/* Pagination */}
-      <OrderDetailesPagination
+      {/* <OrderDetailesPagination
         currentPage={currentPage}
         totalPages={totalPage}
         onPageChange={handlePageChange}
-      />
+      /> */}
     </motion.div>
   );
 };
 
-const OrderDetailesPagination = ({ currentPage, totalPages, onPageChange }) => {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+// const OrderDetailesPagination = ({ currentPage, totalPages, onPageChange }) => {
+//   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  return (
-    <div className="flex justify-end mt-4">
-      {pages.map((page) => (
-        <button
-          key={page}
-          onClick={() => onPageChange(page)}
-          className={`px-3 py-1 mx-1 border rounded ${
-            page === currentPage
-              ? "bg-indigo-600 text-white"
-              : "hover:bg-gray-100"
-          }`}
-        >
-          {page}
-        </button>
-      ))}
-    </div>
-  );
-};
+//   return (
+//     <div className="flex justify-end mt-4">
+//       {pages.map((page) => (
+//         <button
+//           key={page}
+//           onClick={() => onPageChange(page)}
+//           className={`px-3 py-1 mx-1 border rounded ${
+//             page === currentPage
+//               ? "bg-indigo-600 text-white"
+//               : "hover:bg-gray-100"
+//           }`}
+//         >
+//           {page}
+//         </button>
+//       ))}
+//     </div>
+//   );
+// };
 
 export { OrderHistory, OrderHistoryProductDetailes };
 

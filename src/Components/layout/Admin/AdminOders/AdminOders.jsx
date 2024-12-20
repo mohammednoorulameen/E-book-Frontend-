@@ -274,7 +274,7 @@ console.log('userOrders userOrders', userOrders)
 };
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  if (totalPages <= 1) return null; // Don't render if only one page
+  if (totalPages <= 1) return null; 
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 

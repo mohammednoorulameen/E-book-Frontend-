@@ -29,6 +29,10 @@ const validationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password must be match ")
     .required("Confirm Password is required"),
+  //   referralCode: Yup.string()
+  // .matches(/^[A-Za-z0-9]{6,10}$/, "Invalid referral code")
+  // .optional(),
+
 });
 
 const Signup = () => {
@@ -42,9 +46,11 @@ const Signup = () => {
       phone: "",
       password: "",
       confirmPassword: "",
+      referralCode: '',
     },
     validationSchema: validationSchema,
     onSubmit: async (userdata) => {
+      console.log('userData', userdata)
       try {
         const response=await register(userdata)
         console.log(response);
@@ -69,22 +75,6 @@ const Signup = () => {
 
   }
 
-  // useEffect(() => {
-  //   const HandleGoogleAurhentication = async () => {
-  //     try {
-  //       const provider = await new GoogleAuthProvider();
-  //       const result =signInWithRedirect(auth,provider)
-  //       if (result) {
-  //         console.log("User Info:", result.user);
-  //         navigate('/'); // Redirect to dashboard or preferred page
-  //       }
-  //     } catch (error) {
-  //       console.error("Error retrieving redirect result:", error.message);
-  //     }
-  //   };
-
-  //   HandleGoogleAurhentication();
-  // }, [navigate]);
   return (
     <div>
       <div className="flex  bg-slate min-h-full flex-1 flex-col justify-center px-6 py-12 pt-20 lg:px-8">
@@ -224,6 +214,7 @@ const Signup = () => {
                     className="w-full p-2 border border-black focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
+                
               </div>
 
               {formik.touched.confirmPassword &&
@@ -232,6 +223,31 @@ const Signup = () => {
                     {formik.errors.confirmPassword}
                   </div>
                 )}
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium  text-gray-900 pt-2"
+                >
+                  Referral Code
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="referralCode"
+                    name="referralCode"
+                    value={formik.values.referralCode}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    type="text"
+                    autoComplete="current-password"
+                    className="w-full p-2 border border-black focus:outline-none focus:ring-1 focus:ring-black"
+                  />
+                </div>
+                
+              </div>
+
+
+              
 
               <p className="  text-end text-sm text-gray-500">
                 Already have an Account?{" "}
