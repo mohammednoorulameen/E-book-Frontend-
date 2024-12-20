@@ -155,16 +155,40 @@ const OrderHistory = () => {
    * return modal
    */
 
-  const handleOrderReturnOpenModal = () => {
+  const handleOrderReturnOpenModal = (order) => {
+    setSelectedOrder(order);
     setisOrderReturnModalOpen(true);
   };
 
   const handleOrderReturnCancelModal = () => {
     setisOrderReturnModalOpen(false);
+    setSelectedOrder(null);
+
   };
 
-  const handleSubmitOrderreturn = (value) => {
-    console.log("value", value);
+  const handleSubmitOrderreturn =async (value) => {
+
+
+    if (!selectedOrder) return;
+
+    console.log('selectedOrder', selectedOrder)
+    const { product_id, quantity, order_id , productName, payment_id, amount } = selectedOrder;
+    console.log('productName, payment_id, amount', productName, payment_id, amount)
+
+    const response = await CancelOrder({
+      product_id,
+      quantity,
+      order_id,
+    });
+    if (response.data) {
+
+      await AddWallet({ amount: amount, productName: productName, order_id: order_id, payment_id})
+      refetch();
+      handleOrderCancelCloseModal();
+
+    }
+
+    // console.log("value", value);
     // if (input.trim == "") {
     //   setError(true)
     // }else{
@@ -376,13 +400,14 @@ const OrderHistory = () => {
                         //   })
                         // }
                         onClick={() =>
-                          handleOrderCancelOpenModal({
+
+                          handleOrderReturnOpenModal({
                             order_id: order.orderId,
-                            product_id: order.productId,
-                            quantity: order.quantity,
-                            productName: order.productName,
-                            payment_id: order.payment_id,
-                            amount: order.payableAmount
+                              product_id: order.productId,
+                              quantity: order.quantity,
+                              productName: order.productName,
+                              payment_id: order.payment_id,
+                              amount: order.payableAmount
                           })
                         }
                         variant="outlined"
