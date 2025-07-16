@@ -60,7 +60,7 @@ const Shop = () => {
   }, [category]);
 
   if (isLoading) {
-    return <p>Loading products wait 10 seconds...</p>;
+    return <p className="text-red">Loading products wait 10 seconds...</p>;
   }
 
   if (isError) {
