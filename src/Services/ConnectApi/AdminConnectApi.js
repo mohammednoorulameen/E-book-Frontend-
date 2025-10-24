@@ -4,8 +4,8 @@ import { createApi, fetchBaseQuery  } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
     // baseUrl: 'https://ebooksserver.noorulameen.tech/api/admin',
-    //  baseUrl: "http://localhost:4040/api/admin",
-     baseUrl: "https://e-book-backend-mb79.onrender.com/api/admin",
+     baseUrl: "http://localhost:4040/api/admin",
+    //  baseUrl: "https://e-book-backend-mb79.onrender.com/api/admin",
     credentials: "include",
     prepareHeaders: (Headers, {getState}) =>{
         const adminToken =  localStorage.getItem('adminToken')
