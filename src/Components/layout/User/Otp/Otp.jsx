@@ -11,7 +11,7 @@ import {
   TOAST_ERROR,
   TOAST_INFO,
   TOAST_SUCCESS,
-} from "../../../../Utils/ToastConfige/toastConfig";
+} from "../../../../Utils/ToastConfige/ToastConfig";
 
 const Otp = () => {
   const [error, setError] = useState("");
