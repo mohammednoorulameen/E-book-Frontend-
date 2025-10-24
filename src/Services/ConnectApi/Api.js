@@ -5,8 +5,8 @@ import { clearUser } from "../../Redux/Slice/UserSlice/UserSlice";
 
 const baseQuery = fetchBaseQuery({
     // baseUrl: 'https://ebooksserver.noorulameen.tech/api',
-    baseUrl: "http://localhost:4040/api",
-    // baseUrl: "https://e-book-backend-mb79.onrender.com/api",
+    // baseUrl: "http://localhost:4040/api",
+    baseUrl: "https://e-book-backend-mb79.onrender.com/api",
     // baseUrl: `${import.meta.env.VITE_BACKENDURL}/api`,
     credentials: "include",
     prepareHeaders: (Headers) =>{
