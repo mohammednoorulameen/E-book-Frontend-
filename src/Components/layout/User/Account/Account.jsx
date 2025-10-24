@@ -11,9 +11,9 @@ import {
   Bell,
 } from "lucide-react";
 import { Button, Typography } from "@mui/material";
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import { Avatar } from "@mui/material";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Setting from "./Settings";
 import { useSelector } from "react-redux";
 import {
@@ -40,7 +40,7 @@ const menuItems = [
 export default function Account() {
   const [activeSection, setActiveSection] = useState("Profile");
   const navigate = useNavigate();
-  const { routes } = useParams();
+  // const { routes } = useParams();
   const location = useLocation();
 
 
@@ -91,7 +91,7 @@ export default function Account() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-8 px-4 sm:px-6 lg:px-8 mt-10">
       <div className="max-w-7xl mx-auto">
         <motion.h1
           className="text-4xl font-bold text-center text-gray-900 mb-8"

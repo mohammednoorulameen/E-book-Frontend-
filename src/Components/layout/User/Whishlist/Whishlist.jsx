@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ShoppingCartIcon,
-  ArrowRightIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
 import {
@@ -61,7 +60,7 @@ const Cart = () => {
             }
           } 
     } catch (error) {
-        
+        console.log(error)
     }
   }
 
@@ -91,7 +90,7 @@ const Cart = () => {
 
   
   return (
-    <div className="bg-gray-100 min-h-screen py-8">
+    <div className="bg-gray-100 min-h-screen py-8 mt-10">
       <div className="max-w-screen-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-center mb-6">Your Whishlist</h2>
 

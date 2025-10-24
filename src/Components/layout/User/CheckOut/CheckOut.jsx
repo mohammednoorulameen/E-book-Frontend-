@@ -169,7 +169,7 @@ console.log('cartSave', cartSave.address_id)
       setIsAddAddressModalOpen(false);
       setLoading(false);
     } catch (error) {
-      setErrorMessages("Error submit address,please try again");
+      setErrorMessages("Error submit address,please try again",error);
       setLoading(false);
     }
   };
@@ -177,7 +177,7 @@ console.log('cartSave', cartSave.address_id)
 
   
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 mt-10">
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-8">Checkout</h1>
         <div className="grid gap-8 lg:grid-cols-2">

@@ -1,8 +1,30 @@
-import React from "react";
+
 import { Card, CardContent, CardHeader } from "@mui/material";
 import { Button, Typography } from "@mui/material";
+import { useLogoutMutation } from "../../../../Services/Apis/UserApi";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../../../Redux/Slice/UserSlice/UserSlice";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const Setting = () => {
+
+ const [logout] = useLogoutMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+    /**
+   * handle logout
+   */
+
+  const HandleLogout = async () => {
+    await logout();
+    localStorage.removeItem("userToken");
+    dispatch(clearUser());
+    navigate("/");
+  };
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold text-gray-900">Account Settings</h2>
@@ -14,8 +36,6 @@ const Setting = () => {
           <CardContent>
             <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
               <option>English</option>
-              <option>Spanish</option>
-              <option>French</option>
             </select>
           </CardContent>
         </Card>
@@ -25,10 +45,7 @@ const Setting = () => {
           </CardHeader>
           <CardContent>
             <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-              <option>UTC-5 (Eastern Time)</option>
               <option>UTC-6 (Central Time)</option>
-              <option>UTC-7 (Mountain Time)</option>
-              <option>UTC-8 (Pacific Time)</option>
             </select>
           </CardContent>
         </Card>
@@ -41,8 +58,8 @@ const Setting = () => {
               Once you delete your account, there is no going back. Please be
               certain.
             </p>
-            <Button variant="contained" color="error" halfWidth>
-              Delete Account
+            <Button onClick={HandleLogout} variant="contained" color="error" halfWidth>
+              Logout Account
             </Button>
           </CardContent>
         </Card>

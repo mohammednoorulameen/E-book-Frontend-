@@ -26,7 +26,7 @@ const NewOrderPayment = () => {
   const [cartSave, setCartSave] = useState([]);
   const { data: cart } = useGetCartItemsQuery();
   const { data: addressesData } = useGetAddressesQuery();
-  const [PlaceOrder, { isSuccess }] = usePlaceOrderMutation();
+  const [PlaceOrder] = usePlaceOrderMutation();
   const { data, refetch } = useActiveCouponsQuery();
   const [ApplyCoupon] = useApplyCouponMutation();
   const [VerifyPayment] = useVerifyPaymentMutation();
@@ -282,9 +282,9 @@ console.log('cartSave', cartSave)
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background mt-10">
       <main className="container mx-auto px-4 py-4">
-        <h1 className="text-xl text-center font-bold mb-6">
+        <h1 className="text-xl text-center font-bold mb-6 mt-10">
           Complete Your Order
         </h1>
         <div className="max-w-2xl mx-auto">

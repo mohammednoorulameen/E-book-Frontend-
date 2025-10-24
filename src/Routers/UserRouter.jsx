@@ -1,4 +1,3 @@
-import React from "react";
 import SignupPage from "../Pages/User/SignupPage";
 import LoginPage from "../Pages/User/LoginPage";
 import HomePage from "../Pages/User/HomePage";
@@ -26,7 +25,6 @@ import UserPrivate from "../Utils/Protector/UserPrivate";
 import ForgotPasswordPage from "../Pages/User/ForgotPasswordPage";
 import CheckOutPage from "../Pages/User/CheckOutPage";
 import {FailedPaymentPage, NewOrderPaymentPage, PaymentSuccessPage} from "../Pages/User/PaymentsPage";
-import { elements } from "chart.js";
 import WhishlistPage from "../Pages/User/WhishlistPage";
 import Error from "../Components/Common/Error";
 
@@ -37,8 +35,7 @@ const UserRouter = [
     element: (
       <>
         <Header />
-
-        <div style={{ paddingTop: "150px" }}>
+        <div>
           <Outlet />
         </div>
 

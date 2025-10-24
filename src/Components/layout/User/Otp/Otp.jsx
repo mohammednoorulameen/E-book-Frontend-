@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useVerifyOtpMutation,
   useResendOtpMutation,
 } from "../../../../Services/Apis/UserApi";
 // import { setCredentials } from "../../../../Redux/Slice/AuthSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  TOAST_ERROR,
+  TOAST_INFO,
+  TOAST_SUCCESS,
+} from "../../../../Utils/ToastConfige/toastConfig";
 
 const Otp = () => {
   const [error, setError] = useState("");
@@ -13,20 +19,13 @@ const Otp = () => {
   const { userId } = useParams();
   const [timer, setTimer] = useState(59);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const [
-    verifyOtp,
-    { isLoading: isVerifyLoading, isError: isVerifyError, error: verifyError },
-  ] = useVerifyOtpMutation();
-  const [
-    resendOtp,
-    { isSuccess: isResendSuccess, isError: isResendError, error: resendError },
-  ] = useResendOtpMutation();
+  const [verifyOtp, { isLoading: isVerifyLoading, error: verifyError }] =
+    useVerifyOtpMutation();
+  const [resendOtp] = useResendOtpMutation();
 
-  /*
-     user otp timer
-     */
+  /* ---------------- Timer Countdown ---------------- */
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,36 +38,34 @@ const Otp = () => {
     };
   }, [timer]);
 
-  /*
- user otp Submit
- */
+  /* ---------------- Handle Submit ---------------- */
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
     if (!otp || otp.length !== 6) {
       setError("Otp must be 6 digits");
+      toast.error("OTP must be exactly 6 digits!", TOAST_ERROR);
       return;
     }
 
     try {
       const response = await verifyOtp({ userId, otp });
       console.log(response);
-      // if (response && response.access_token) {
-      //   setOtp("");
-      //   setError("");
-      //   // dispatch(setCredentials(response.access_token));
-      //   localStorage.setItem()
-      //   navigate("/login");
-      // }
-      if('data' in response){
-        localStorage.setItem('userToken',response.data.access_token)
-        localStorage.removeItem('email');
-        navigate('/')
-        window.location.reload(); 
+      if ("data" in response) {
+        localStorage.setItem("userToken", response.data.access_token);
+        localStorage.removeItem("email");
+        toast.success("OTP verified successfully!", TOAST_SUCCESS);
+        navigate("/");
+        window.location.reload();
       }
+
       console.log("OTP Submitted:", otp);
     } catch (error) {
       setError(error.response.data.message);
+      toast.error(
+        error?.data?.message || "Invalid or expired OTP!",
+        TOAST_ERROR
+      );
     }
   };
 
@@ -80,40 +77,42 @@ const Otp = () => {
     try {
       setError("");
       await resendOtp({ userId }).unwrap();
+      toast.info("A new OTP has been sent to your email.", TOAST_INFO);
       setTimer(59);
     } catch (error) {
       setError(error.response.data.message);
+      toast.error(error?.data?.message || "Failed to resend OTP.", TOAST_ERROR);
     }
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-4">
+    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
+        <h2 className="text-3xl font-bold text-center text-indigo-600 mb-2">
           Verify Your Email
         </h2>
         <p className="text-gray-600 text-center mb-6">
           Please enter the OTP sent to your email to verify your account.
         </p>
         {error && (
-         <div className="flex justify-center items-center mb-3">
-         <span className="text-center text-red-500">{error}</span>
-       </div>
+          <div className="flex justify-center items-center mb-3">
+            <span className="text-center text-red-500">{error}</span>
+          </div>
         )}
         {verifyError && (
-         <div className="flex justify-center items-center mb-3">
-         <span className="text-center text-gray-700">
-           {verifyError?.data?.message || "Failed OTP Verification"}
-         </span>
-       </div>
-        )}
-        {isResendSuccess && (
           <div className="flex justify-center items-center mb-3">
-          <span className="text-center text-green-500">
-            New OTP sent to your email
-          </span>
-        </div>
+            <span className="text-center text-gray-700">
+              {verifyError?.data?.message || "Failed OTP Verification"}
+            </span>
+          </div>
         )}
+        {/* {isResendSuccess && (
+          <div className="flex justify-center items-center mb-3">
+            <span className="text-center text-green-500">
+              New OTP sent to your email
+            </span>
+          </div>
+        )} */}
         <form onSubmit={HandleSubmit} className="flex flex-col items-center">
           <input
             type="text"
@@ -134,7 +133,7 @@ const Otp = () => {
           </button>
         </form>
         <div className="relative text-center mt-4 text-sm text-gray-600">
-          Didn't receive the OTP?{" "}
+          Didn&apos;t receive the OTP?{" "}
           <button
             disabled={timer > 0}
             onClick={HandleResendOtp}

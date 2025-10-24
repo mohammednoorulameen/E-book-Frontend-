@@ -125,7 +125,7 @@ const Shop = () => {
   return (
     <div>
       <main>
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 mt-10">
           <div className="flex gap-5 pr-5">
             {/* <!-- Sort Dropdown --> */}
             <div className="mb-4">
